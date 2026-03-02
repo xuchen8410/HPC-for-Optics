@@ -97,37 +97,8 @@ for sample:
 Single fused loop: One memory pass - Cache reuse - No temporaries - Dramatic speed improvement
 
 ### 6. Why This Matters in Optical HPC
-
-In optical-mechanical simulations:
-
-Tolerance Monte Carlo
-
-Structural deformation propagation
-
-Wavefront accumulation
-
-Stray light ray tracing
-
-STOP system modeling
-
-Workloads are:
-
-Arithmetic-light
-
-Loop-heavy
-
-Memory-sensitive
-
-Performance depends more on:
-
-Memory locality
-
-Cache behavior
-
-Loop fusion
-
-than on raw floating-point count.
-
+- In optical-mechanical simulations such as tolerance Monte Carlo, deformation propagation, wavefront accumulation, stray-light tracing, and STOP modeling, workloads are loop-heavy, arithmetic-light, and memory-sensitive, so performance is governed more by memory locality, cache behavior, and loop fusion than by raw floating-point throughput.
+- 循环密集、算术较轻且对内存敏感，因此性能更多取决于内存局部性、缓存行为与循环融合，而非单纯的浮点运算能力。
 ### 7.  Summary Comparison
 
 
