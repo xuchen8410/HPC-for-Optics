@@ -1,4 +1,4 @@
-# Numba 的执行方式（关键差异）
+## Numba 的执行方式
 Numba 编译整个 loop：
 @njit
 for i:
@@ -23,20 +23,31 @@ def f(N):
     for i in prange(N):
         ...
 
-
-
-
-
-
-
-----
------
+## Numpy 的执行方式
 NumPy = Memory bound
 CPU 等内存。
-----
-Current CPU：算力 >> 内存带宽
 
+# 两者差别
+NumPy temp arrays： RAM ←→ CPU ←→ RAM ←→ CPU
+Numba：RAM → cache → 连续算 → RAM
+
+Numba：一次扫描完成全部计算
+从硬件层解释（真正核心）
+CPU：
+L1 cache  ~1ns
+RAM       ~100ns
+差 100×
+
+Current CPU：算力 >> 内存带宽
  少访问内存 = 巨大加速
+ Numba accelerates optical HPC kernels because it:
+-Eliminates temporary arrays
+-Fuses loops
+-Maximizes cache locality
+-Enables SIMD
+-Scales across cores
+This is why Monte Carlo, STOP, FDTD, and ray loops can become dramatically faster.
+
  ----
 Example: STOP kernel：
 for sample:
@@ -52,17 +63,5 @@ NumPy方式：
 vector op
 vector op
 vector op
-= 多次扫数组。
-
-Numba：一次扫描完成全部计算
------
-从硬件层解释（真正核心）
-CPU：
-L1 cache  ~1ns
-RAM       ~100ns
-差 100×。
-# NumPy temp arrays： RAM ←→ CPU ←→ RAM ←→ CPU
-# Numba：RAM → cache → 连续算 → RAM
-
-
+= 多次扫数组
 
