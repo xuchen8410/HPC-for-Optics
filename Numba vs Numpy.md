@@ -14,7 +14,23 @@ compute
 store c[i]
  
 没有 temp array！：直接 Loop Fusion（循环融合）=compute boud, CPU is continuing computation
+1. 完全不允许 Python 解释器参与:  from numba import njit
+2. 并行计算
+自动：多核 CPU； OpenMP-like 分块； SIMD vectorization -- Monte Carlo / FDTD / ray loop 巨快。
+from numba import prange
+@njit(parallel=True)
+def f(N):
+    for i in prange(N):
+        ...
+
+
+
+
+
+
+
 ----
+-----
 NumPy = Memory bound
 CPU 等内存。
 ----
