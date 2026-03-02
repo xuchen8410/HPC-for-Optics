@@ -65,7 +65,7 @@ Memory flow: Pass 1: read a, b → write temp1; Pass 2: read d, e → write temp
 
 - Numba = Single-Pass Pattern
 RAM → L1 cache → continuous compute → write once. Only one memory traversal-- Minimal memory traffic.
-
+算力 >> 内存带宽； 少访问内存 = 巨大加速
 ### 4. Hardware-Level Explanation
 - Component	Approx Latency
 L1 Cache	~1 ns; L2 Cache	~4 ns; L3 Cache	~10–20 ns; RAM	~80–120 ns
@@ -112,18 +112,4 @@ Single fused loop: One memory pass - Cache reuse - No temporaries - Dramatic spe
 | Typical Bound | Memory-bound             | Often compute-bound      |
 | Best Use Case | Linear algebra           | Custom HPC kernels       |
 
-### 8. example
-Numba：一次扫描完成全部计算
-从硬件层解释（真正核心）
-CPU：
-L1 cache  ~1ns
-RAM       ~100ns
-差 100×
- Numba accelerates optical HPC kernels because it:
--Eliminates temporary arrays
--Fuses loops
--Maximizes cache locality
--Enables SIMD
--Scales across cores
-This is why Monte Carlo, STOP, FDTD, and ray loops can become dramatically faster.Current CPU：算力 >> 内存带宽
- 少访问内存 = 巨大加速
+
