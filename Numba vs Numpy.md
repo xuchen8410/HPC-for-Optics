@@ -18,13 +18,13 @@ Even though it looks “vectorized”, it still performs separate passes over me
 - Numba (JIT Compiled Loop Fusion)
   from numba import njit
 
- @njit
+   @njit
 def kernel(a, b, d, e, c):
     for i in range(len(a)):
         c[i] = a[i] * b[i] + d[i] * e[i]
 What LLVM Sees
 
-A single fused loop:
+    A single fused loop:
 load a[i]
 load b[i]
 load d[i]
