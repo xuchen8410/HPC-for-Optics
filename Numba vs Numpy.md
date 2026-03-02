@@ -39,6 +39,14 @@ vector op
 = 多次扫数组。
 
 Numba：一次扫描完成全部计算
+-----
+从硬件层解释（真正核心）
+CPU：
+L1 cache  ~1ns
+RAM       ~100ns
+差 100×。
+# NumPy temp arrays： RAM ←→ CPU ←→ RAM ←→ CPU
+# Numba：RAM → cache → 连续算 → RAM
 
 
 
