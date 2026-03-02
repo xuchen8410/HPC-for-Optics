@@ -1,88 +1,44 @@
-## Numba 的执行方式
-Numba 编译整个 loop：
-@njit
-for i:
-    c[i] = a[i]*b[i] + d[i]*e[i]
-LLVM 看到的是：
-single fused kernel
-生成：
-load a[i]
-load b[i]
-load d[i]
-load e[i]
-compute
-store c[i]
- 
-没有 temp array！：直接 Loop Fusion（循环融合）=compute boud, CPU is continuing computation
-1. 完全不允许 Python 解释器参与:  from numba import njit
-2. 并行计算
-自动：多核 CPU； OpenMP-like 分块； SIMD vectorization -- Monte Carlo / FDTD / ray loop 巨快。
-from numba import prange
-@njit(parallel=True)
-def f(N):
-    for i in prange(N):
-        ...
-
-## Numpy 的执行方式
-NumPy = Memory bound
-CPU 等内存。
-
 ## 两者差别 Numba vs NumPy: Execution & Memory Model in HPC
-NumPy temp arrays： RAM ←→ CPU ←→ RAM ←→ CPU
-Numba：RAM → cache → 连续算 → RAM
+- NumPy temp arrays： RAM ←→ CPU ←→ RAM ←→ CPU
+- Numba：RAM → cache → 连续算 → RAM
 
-The real difference is:
-
-Memory traffic + loop fusion + native compilation
+The real difference is: Memory traffic + loop fusion + native compilation
 
 ### 1. Execution Model Difference
-NumPy (Vectorized Style)
-c = a * b + d * e
+- NumPy (Vectorized Style) Numpy 的执行方式
+NumPy = Memory bound
+CPU 等内存: c = a * b + d * e
 Under the hood this becomes:
 temp1 = a * b
 temp2 = d * e
-c     = temp1 + temp2
-What Happens
-Multiple full-array passes
-
-Temporary arrays allocated
-
-Repeated memory reads/writes
-
-Execution becomes memory-bound
-
+c = temp1 + temp2
+ What Happens when Multiple full-array passes -- Temporary arrays allocated -- Repeated memory reads/writes -- Execution becomes memory-bound
 Even though it looks “vectorized”, it still performs separate passes over memory.
 
-Numba (JIT Compiled Loop Fusion)
-from numba import njit
+- Numba (JIT Compiled Loop Fusion)
+  from numba import njit
 
-@njit
+ @njit
 def kernel(a, b, d, e, c):
     for i in range(len(a)):
         c[i] = a[i] * b[i] + d[i] * e[i]
 What LLVM Sees
 
 A single fused loop:
-
 load a[i]
 load b[i]
 load d[i]
 load e[i]
 compute
 store c[i]
-Key Properties
 
-Entire loop compiled to native machine code
-
-Python interpreter completely bypassed
-
-No temporary arrays
-
-Loop fusion
-
-Cache-friendly memory access
-
-Often compute-bound instead of memory-bound
+1. 完全不允许 Python 解释器参与:  from numba import njit ------ Entire loop compiled to native machine code, Python interpreter completely bypassed
+2. 并行计算: 没有 temp array！：直接 Loop Fusion（循环融合）=compute boud, CPU is continuing computationcache-friendly memory access ---Often compute-bound instead of memory-bound
+自动：多核 CPU； OpenMP-like 分块； SIMD vectorization -- Monte Carlo / FDTD / ray loop 巨快。
+from numba import prange
+@njit(parallel=True)
+def f(N):
+    for i in prange(N):
 
 ### 2. Parallel Execution (Multi-Core + SIMD)
 from numba import njit, prange
