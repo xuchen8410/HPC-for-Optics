@@ -61,86 +61,40 @@ Monte Carlo simulations; STOP tolerance analysis; FDTD time stepping; Ray tracin
 
 For: c = a * b + d * e
 
-Memory flow:
+Memory flow: Pass 1: read a, b → write temp1; Pass 2: read d, e → write temp2; Pass 3: read temp1, temp2 → write c. Multiple full-array scans -- Memory dominates runtime.
 
-Pass 1: read a, b → write temp1
-Pass 2: read d, e → write temp2
-Pass 3: read temp1, temp2 → write c
-
-Multiple full-array scans.
-
-Memory dominates runtime.
-
--Numba = Single-Pass Pattern
-RAM → L1 cache → continuous compute → write once
-
-Only one memory traversal.
-
-Minimal memory traffic.
+- Numba = Single-Pass Pattern
+RAM → L1 cache → continuous compute → write once. Only one memory traversal-- Minimal memory traffic.
 
 ### 4. Hardware-Level Explanation
-Component	Approx Latency
-L1 Cache	~1 ns
-L2 Cache	~4 ns
-L3 Cache	~10–20 ns
-RAM	~80–120 ns
-
+- Component	Approx Latency
+L1 Cache	~1 ns; L2 Cache	~4 ns; L3 Cache	~10–20 ns; RAM	~80–120 ns
 RAM access is roughly 100× slower than L1 cache.
-
-NumPy with Temporary Arrays
+#### 4.1 NumPy with Temporary Arrays
 RAM ↔ CPU ↔ RAM ↔ CPU ↔ RAM
-
 Constant memory movement.
-
-Numba Fused Loop
+#### 4.2 Numba Fused Loop
 RAM → Cache → Continuous compute → RAM
-
 Maximizes cache reuse.
-
 Minimizes memory latency penalties.
-
 ### 5. Example: STOP Monte Carlo Kernel
-
-Typical STOP inner loop:
-
+#### 5.1 Typical STOP inner loop:
 for sample in range(N):
     thermal_expansion()
     tilt_solve()
     wavefront_update()
-Characteristics
-
-Small arithmetic per iteration
-
-Large number of iterations
-
-Heavy repetition
-
-Memory-sensitive
-
-NumPy Style
+-----Characteristics: Small arithmetic per iteration; Large number of iterations; Heavy repetition; Memory-sensitive; NumPy Style: 
 vector op
 vector op
 vector op
-
-Each step scans the full array.
-
-Memory-bound.
-
-Numba Style
+---- Each step scans the full array ---- Memory-bound.
+#### 5.2 Numba Style
 for sample:
     thermal expansion
     tilt solve
     wavefront update
 
-Single fused loop:
-
-One memory pass
-
-Cache reuse
-
-No temporaries
-
-Dramatic speed improvement
+Single fused loop: One memory pass - Cache reuse - No temporaries - Dramatic speed improvement
 
 ### 6. Why This Matters in Optical HPC
 
