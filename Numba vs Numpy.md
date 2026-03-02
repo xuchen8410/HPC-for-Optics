@@ -1,7 +1,7 @@
 ## 两者差别 Numba vs NumPy: Execution & Memory Model in HPC
 - NumPy temp arrays： RAM ←→ CPU ←→ RAM ←→ CPU
 - Numba：RAM → cache → 连续算 → RAM
-
+科学计算性能由计算效率、内存效率和并行效率三者共同决定。
 The real difference is: Memory traffic + loop fusion + native compilation
 
 ### 1. Execution Model Difference
@@ -49,43 +49,17 @@ def f(N):
         ...
 What Happens Internally
 
-Multi-core CPU parallelization
-
-OpenMP-style chunk partitioning
-
-Automatic thread scheduling
-
-SIMD vectorization (AVX2 / AVX-512 when available)
-
-No GIL limitation
-
-Ideal Workloads
-
-Monte Carlo simulations
-
-STOP tolerance analysis
-
-FDTD time stepping
-
-Ray tracing loops
-
-Parameter sweeps
+Multi-core CPU parallelization； OpenMP-style chunk partitioning;Automatic thread scheduling; SIMD vectorization (AVX2 / AVX-512 when available); No GIL limitation; 
+- Ideal Workloads
+Monte Carlo simulations; STOP tolerance analysis; FDTD time stepping; Ray tracing loops; Parameter sweeps
 
 ### 3. Memory Model: The Real Bottleneck
+不同执行模型（Python、NumPy、Numba、BLAS、GPU）在底层优化层级上差异显著，决定了性能上限。
+- Modern CPUs: Compute throughput  >>  Memory bandwidth  （CPU often waits on RAM rather than computing）.
 
-Modern CPUs:
+- NumPy = Memory-Bound Pattern
 
-Compute throughput  >>  Memory bandwidth
-
-Meaning:
-
-CPU often waits on RAM rather than computing.
-
-NumPy = Memory-Bound Pattern
-
-For:
-
-c = a * b + d * e
+For: c = a * b + d * e
 
 Memory flow:
 
@@ -97,7 +71,7 @@ Multiple full-array scans.
 
 Memory dominates runtime.
 
-Numba = Single-Pass Pattern
+-Numba = Single-Pass Pattern
 RAM → L1 cache → continuous compute → write once
 
 Only one memory traversal.
