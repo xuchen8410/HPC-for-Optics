@@ -47,21 +47,14 @@ Current CPU：算力 >> 内存带宽
 -Enables SIMD
 -Scales across cores
 This is why Monte Carlo, STOP, FDTD, and ray loops can become dramatically faster.
+| Aspect        | NumPy                    | Numba                    |
+| ------------- | ------------------------ | ------------------------ |
+| Execution     | Interpreter + vector ops | Native LLVM machine code |
+| Temp Arrays   | Yes                      | No                       |
+| Memory Passes | Multiple                 | Single                   |
+| Loop Fusion   | No                       | Yes                      |
+| Parallelism   | Limited                  | Multi-core + SIMD        |
+| Typical Bound | Memory-bound             | Often compute-bound      |
+| Best Use Case | Linear algebra           | Custom HPC kernels       |
 
- ----
-Example: STOP kernel：
-for sample:
-    thermal expansion
-    tilt solve
-    wavefront update
-特点：
-每步计算量小
-数据量巨大
-重复 N 次
-
-NumPy方式：
-vector op
-vector op
-vector op
-= 多次扫数组
 
