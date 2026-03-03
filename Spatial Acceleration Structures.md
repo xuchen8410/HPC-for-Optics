@@ -3,10 +3,8 @@
 - KD-tree (points)
 - BVH (ray tracing)
 - R-tree (boxes)
-### Engineering-Level Understanding for Optical / Ray / CAD Systems
 
-
-#### 1. Why Spatial Indexing Exists
+#### 1. Why Spatial Indexing Exists - Engineering-Level Understanding for Optical / Ray / CAD Systems
 
 Naive intersection:
 
@@ -138,7 +136,7 @@ C = C_trav + P(left)C(left) + P(right)C(right)
 
 Industrial ray tracers use SAH.
 
----
+
 
 ##### 3.4 Ray Traversal
 
@@ -300,6 +298,3 @@ Cache behavior and memory layout dominate performance.
 
 Not raw FLOPS.
 
-
-
-#### End
