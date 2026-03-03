@@ -27,10 +27,7 @@ Not just ray tracing.
 5. STOP deformation coupling
 6. Multi-bounce scatter control
 
-Stray must be:
-
-Structural → Thermal → Optical → Radiometric coupled
-
+### Stray must be: Structural → Thermal → Optical → Radiometric coupled
 
 ## 3. 总结 Industrial-grade ACIS B-rep geometric kernel
 
@@ -38,7 +35,7 @@ Structural → Thermal → Optical → Radiometric coupled
 
 主流几何内核：
 
-## OpenCASCADE (OCCT)
+### 3.1 OpenCASCADE (OCCT)
 - 开源
 - 广泛用于CAD系统
 - B-Rep支持
@@ -54,9 +51,7 @@ Structural → Thermal → Optical → Radiometric coupled
 - 曲面细分质量依赖网格策略
 - 非专为高速光线追迹设计
 
----
-
-## Parasolid（Siemens）
+### 3.2 Parasolid（Siemens）
 - 商业内核
 - SolidWorks / NX使用
 - 工业成熟度高
@@ -69,14 +64,14 @@ Structural → Thermal → Optical → Radiometric coupled
 - 授权昂贵
 - 不直接面向光学追迹
 
-## ACIS
+### 3.3 ACIS
 - 商业内核
 - 广泛用于工程CAD
 
 特点与Parasolid类似。
 
 
-## Ray Engine 自有几何内核
+### 3.4  Ray Engine 自有几何内核
 
 GPU引擎通常：
 
