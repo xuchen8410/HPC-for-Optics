@@ -1,19 +1,12 @@
-
-
-空间索引结构：快速找到可能相交的几何体
+# Spatial Acceleration Structures  空间索引结构 - 快速找到可能相交的几何体
+## KD-Tree vs BVH vs R-Tree  
 - KD-tree (points)
 - BVH (ray tracing)
 - R-tree (boxes)
-
-
-
-# Spatial Acceleration Structures  
-## KD-Tree vs BVH vs R-Tree  
 ### Engineering-Level Understanding for Optical / Ray / CAD Systems
 
----
 
-# 1. Why Spatial Indexing Exists
+#### 1. Why Spatial Indexing Exists
 
 Naive intersection:
 
@@ -39,20 +32,20 @@ Core idea:
 
 > Eliminate 90–99% of impossible intersection tests before geometry testing.
 
----
 
-# 2. KD-Tree (k-dimensional tree)
 
-## Best For
+#### 2. KD-Tree (k-dimensional tree)
+
+##### Best For
 - Point clouds
 - kNN search
 - Photon mapping
 - Monte Carlo sampling
 - Nearest-neighbor queries
 
----
 
-## 2.1 Core Concept
+
+##### 2.1 Core Concept
 
 Binary Space Partitioning (BSP).
 
@@ -61,9 +54,8 @@ At each level:
 - Split at median
 - Recursively divide space
 
----
 
-## 2.2 Data Structure
+##### 2.2 Data Structure
 
 struct KDNode {
     point
@@ -75,9 +67,9 @@ struct KDNode {
 Binary tree.
 Space is partitioned, not objects.
 
----
 
-## 2.3 Query (Nearest Neighbor)
+
+##### 2.3 Query (Nearest Neighbor)
 
 1. Traverse down likely branch.
 2. Track best distance.
@@ -89,20 +81,19 @@ O(log N)
 Worst case:
 O(N)
 
----
 
-## 2.4 Optical Applications
+##### 2.4 Optical Applications
 
 - Photon mapping
 - Monte Carlo phase-space sampling
 - Wavefront grid neighbor search
 - Scattered ray statistics
 
----
 
-# 3. BVH (Bounding Volume Hierarchy)
 
-## Best For
+#### 3. BVH (Bounding Volume Hierarchy)
+
+##### Best For
 - Ray tracing
 - Stray light analysis
 - Triangle meshes
@@ -110,18 +101,17 @@ O(N)
 
 Modern ray tracers use BVH (Embree, OptiX, Unreal Engine).
 
----
 
-## 3.1 Core Concept
+###### 3.1 Core Concept
 
 Wrap geometry in bounding boxes.
 Then wrap boxes in larger boxes.
 
 Hierarchy of bounding volumes.
 
----
 
-## 3.2 Data Structure
+
+##### 3.2 Data Structure
 
 struct BVHNode {
     bounding_box
@@ -134,9 +124,8 @@ Binary tree.
 Objects remain intact.
 Only bounding volumes are hierarchical.
 
----
 
-## 3.3 Construction Methods
+##### 3.3 Construction Methods
 
 Common strategies:
 
@@ -151,7 +140,7 @@ Industrial ray tracers use SAH.
 
 ---
 
-## 3.4 Ray Traversal
+##### 3.4 Ray Traversal
 
 Pseudo-logic:
 
@@ -165,9 +154,9 @@ else:
 
 Most rays terminate high in tree.
 
----
 
-## 3.5 Why BVH > KD-Tree for Ray Tracing?
+
+##### 3.5 Why BVH > KD-Tree for Ray Tracing?
 
 | KD-tree            | BVH                     |
 |--------------------|-------------------------|
@@ -178,29 +167,26 @@ Most rays terminate high in tree.
 
 BVH is GPU-standard.
 
----
 
-# 4. R-Tree
+#### 4. R-Tree
 
-## Best For
+##### Best For
 - GIS systems
 - CAD systems
 - Spatial databases
 - OpenCASCADE
 - Collision detection
 
----
 
-## 4.1 Core Concept
+##### 4.1 Core Concept
 
 B-tree for spatial data.
 
 Nodes store multiple bounding boxes.
 Multi-branch tree.
 
----
 
-## 4.2 Data Structure
+##### 4.2 Data Structure
 
 Node:
     MBR (Minimum Bounding Rectangle)
@@ -209,9 +195,7 @@ Node:
 Not binary.
 Multi-way branching.
 
----
-
-## 4.3 Insertion Strategy
+##### 4.3 Insertion Strategy
 
 When inserting:
 
@@ -220,9 +204,8 @@ When inserting:
 3. Split if overflow.
 4. Update parent MBR.
 
----
 
-## 4.4 Characteristics
+##### 4.4 Characteristics
 
 | Feature        | R-tree |
 |---------------|--------|
@@ -233,7 +216,7 @@ When inserting:
 
 ---
 
-# 5. Core Structural Differences
+#### 5. Core Structural Differences
 
 | Feature | KD-tree | BVH | R-tree |
 |---------|---------|-----|--------|
@@ -246,7 +229,7 @@ When inserting:
 
 ---
 
-# 6. Engineering Perspective (HPC View)
+#### 6. Engineering Perspective (HPC View)
 
 Performance depends on:
 
@@ -272,7 +255,7 @@ GPU-friendly.
 
 ---
 
-# 7. Choosing Structure for Optical Systems
+#### 7. Choosing Structure for Optical Systems
 
 Monte Carlo tolerance
 → KD-tree (point search)
@@ -285,7 +268,7 @@ CAD collision / OCCT modeling
 
 ---
 
-# 8. One-Line Summary
+#### 8. One-Line Summary
 
 KD-tree  = Split Space  
 BVH      = Wrap Objects  
@@ -293,7 +276,7 @@ R-tree   = Spatial Database Index
 
 ---
 
-# 9. Complexity Summary
+#### 9. Complexity Summary
 
 Naive:
 O(N_ray × N_obj)
@@ -306,7 +289,7 @@ Memory bandwidth > Floating point cost
 
 ---
 
-# 10. Practical Insight
+#### 10. Practical Insight
 
 Modern CPUs:
 
@@ -320,4 +303,4 @@ Not raw FLOPS.
 
 ---
 
-# End
+#### End
