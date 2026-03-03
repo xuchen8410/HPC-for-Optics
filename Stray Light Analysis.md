@@ -20,13 +20,13 @@ Not just ray tracing.
 
 ## 2. A space-grade stray platform must include:
 
-1.Industrial-grade ACIS B-rep geometric kernel
-2. BVH acceleration (cache-optimized)
-3. Advanced BRDF (wavelength dependent)
-4. Radiometric integration (Planck + QE)
-5. Monte Carlo importance sampling
-6. STOP deformation coupling
-7. Multi-bounce scatter control
+- 1.Industrial-grade ACIS B-rep geometric kernel
+- 2. BVH acceleration (cache-optimized)
+- 3. Advanced BRDF (wavelength dependent)
+- 4. Radiometric integration (Planck + QE)
+- 5. Monte Carlo importance sampling
+- 6. STOP deformation coupling
+- 7. Multi-bounce scatter control
 
 ### Stray must be: Structural → Thermal → Optical → Radiometric coupled
 
