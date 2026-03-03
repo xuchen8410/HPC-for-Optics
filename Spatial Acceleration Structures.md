@@ -227,7 +227,7 @@ When inserting:
 | GPU | Rare | Standard | Rare |
 | Optical Usage | Photon | Ray tracing | CAD indexing |
 
----
+
 
 #### 6. Engineering Perspective (HPC View)
 
@@ -253,7 +253,7 @@ Cache-optimal.
 Traversal-friendly.
 GPU-friendly.
 
----
+
 
 #### 7. Choosing Structure for Optical Systems
 
@@ -266,7 +266,7 @@ Stray light ray tracing
 CAD collision / OCCT modeling
 → R-tree
 
----
+
 
 #### 8. One-Line Summary
 
@@ -274,7 +274,7 @@ KD-tree  = Split Space
 BVH      = Wrap Objects  
 R-tree   = Spatial Database Index  
 
----
+
 
 #### 9. Complexity Summary
 
@@ -287,7 +287,6 @@ O(N_ray log N_obj)
 True performance bottleneck:
 Memory bandwidth > Floating point cost
 
----
 
 #### 10. Practical Insight
 
@@ -301,6 +300,6 @@ Cache behavior and memory layout dominate performance.
 
 Not raw FLOPS.
 
----
+
 
 #### End
