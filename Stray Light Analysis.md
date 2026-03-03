@@ -152,7 +152,7 @@ W / sr / m²
 
 ```text
 ┌────────────────────────────┐
-│       Scenario     │
+│      Simulation Scenario   │
 │   Sun, Earth, Background   │
 └──────────────┬─────────────┘
                │
