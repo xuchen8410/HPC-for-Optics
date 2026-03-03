@@ -134,3 +134,16 @@ CAD → 三角网格； BVH 构建-Linear BVH（LBVH）或 SAH 构建；AABB hie
 W / sr / m²
 或 W/m²
 - 军工系统必须：从光线 → 辐射单位闭环。
+#### 4.4 与 STOP 深度耦合
+- 商业软件真正弱的地方。
+- STOP 耦合需要：
+##### 4.4.1 几何动态变形
+- FEA 节点位移，Zernike surface map，热梯度变形必须更新 mesh 或 analytic surface。
+- BVH 需要：快速 refit或 GPU rebuild
+- 变形引起 stray path 改变 -例子：镜面 10 µrad tilt，可能打开太阳直通路径，这不是线性误差问题，Monte Carlo 必须重新统计路径分布。
+- 抖动与时间平均： Jitter 模型 - 小角随机，时间积分
+- BVH traversal 需支持大量重复批次。
+### GPU 规模并行的现实意义
+- CPU：内存带宽瓶颈，分支发散严重
+- GPU：Massive parallel traversal，高 ray throughput，批量 Monte Carlo
+- 关键：BVH 必须无递归；栈less traversal；Warp-friendly，否则 GPU 效率崩溃。
