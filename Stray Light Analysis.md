@@ -147,3 +147,45 @@ W / sr / m²
 - CPU：内存带宽瓶颈，分支发散严重
 - GPU：Massive parallel traversal，高 ray throughput，批量 Monte Carlo
 - 关键：BVH 必须无递归；栈less traversal；Warp-friendly，否则 GPU 效率崩溃。
+
+### Diagram
+
+```text
+┌────────────────────────────┐
+│       Scenario     │
+│   Sun, Earth, Background   │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────────────────────────────────────┐
+│                    Monte Carlo Engine                      │
+│  Importance Sampling | Multi-Bounce | Russian Roulette     │
+│  Deterministic Seeds | Confidence Estimation               │
+└───────────────┬───────────────────────────────┬────────────┘
+                │                               │
+                ▼                               ▼
+        ┌──────────────────┐            ┌────────────────────┐
+        │   BVH Traversal  │            │  Radiometric Engine │
+        │   (GPU / CPU)    │            │  Spectral + Planck  │
+        │   Stackless      │            │  Detector QE        │
+        └─────────┬────────┘            └──────────┬─────────┘
+                  │                                  │
+                  ▼                                  ▼
+        ┌────────────────────┐            ┌────────────────────┐
+        │   Geometry Layer   │            │   Detector Model   │
+        │   Mesh + BVH Build │            │   Pixel Integration│
+        │   Refit / Rebuild  │            │   SNR Estimation   │
+        └─────────┬──────────┘            └──────────┬─────────┘
+                  │
+                  ▼
+        ┌────────────────────┐
+        │    STOP Coupling   │
+        │    FEA Deformation │
+        │    Thermal Gradient│
+        │    Jitter Model    │
+        └────────────────────┘
+```  ···
+
+
+··· 
+
