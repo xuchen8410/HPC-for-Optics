@@ -184,8 +184,4 @@ W / sr / m²
         │    Thermal Gradient│
         │    Jitter Model    │
         └────────────────────┘
-```  ···
-
-
-··· 
-
+```  
